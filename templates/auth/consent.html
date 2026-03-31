@@ -1,0 +1,47 @@
+{{ define "title" }}Authorize{{ end }}
+
+{{ define "content" }}
+<div class="auth-card card">
+    <div class="auth-logo">
+        <i class="fa-solid fa-handshake"></i>
+    </div>
+
+    <h2>Authorize <span class="text-accent">{{ .AppName }}</span></h2>
+
+    {{ if .AppDescription }}
+    <p class="text-muted auth-subtitle">{{ .AppDescription }}</p>
+    {{ end }}
+
+    <p class="text-muted auth-subtitle">
+        This application wants to access your account
+        <strong class="text-light">({{ .UserEmail }})</strong>
+    </p>
+
+    <div class="consent-scopes">
+        <h4>Permissions requested:</h4>
+        {{ range .Scopes }}
+        <div class="scope-item">
+            <i class="fa-solid fa-check-circle text-success"></i>
+            <div>
+                <strong>{{ index . "name" }}</strong>
+                <span class="text-muted text-small">{{ index . "description" }}</span>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <form method="POST" action="/consent">
+        <input type="hidden" name="auth_request_id" value="{{ .AuthRequestID }}">
+        <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+        <div class="consent-actions">
+            <button type="submit" name="action" value="approve" class="button button-accent button-large">
+                <i class="fa-solid fa-check"></i> Allow
+            </button>
+            <button type="submit" name="action" value="deny" class="button button-secondary button-large">
+                <i class="fa-solid fa-xmark"></i> Deny
+            </button>
+        </div>
+    </form>
+</div>
+{{ end }}

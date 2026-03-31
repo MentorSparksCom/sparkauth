@@ -1,0 +1,41 @@
+{{ define "layout" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ template "title" . }} | SSO Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-brand">
+            <a href="/admin" class="brand-link">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h1>SSO <span class="logo-accent">Provider</span></h1>
+            </a>
+        </div>
+        <nav class="header-nav">
+            <a href="/admin" class="nav-link"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="/admin/applications" class="nav-link"><i class="fa-solid fa-cube"></i> Applications</a>
+            <a href="/admin/users" class="nav-link"><i class="fa-solid fa-users"></i> Users</a>
+            <a href="/admin/settings" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+        </nav>
+        <div class="header-user">
+            <span class="user-email">{{ .User.Email }}</span>
+            <a href="/logout" class="button button-secondary button-small">Logout</a>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        {{ template "content" . }}
+    </main>
+
+    {{ template "scripts" . }}
+</body>
+</html>
+{{ end }}
+
+{{ define "scripts" }}{{ end }}

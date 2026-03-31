@@ -1,0 +1,73 @@
+{{ define "title" }}Users{{ end }}
+
+{{ define "content" }}
+<div class="page-header">
+    <div>
+        <h2>Users</h2>
+        <p class="text-muted">All registered users in your SSO provider.</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Login Method</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Users }}
+                <tr>
+                    <td>
+                        <div class="user-cell">
+                            {{ if .AvatarURL }}
+                            <img src="{{ .AvatarURL }}" alt="{{ .Name }}" class="user-avatar">
+                            {{ else }}
+                            <div class="user-avatar-placeholder">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            {{ end }}
+                            <span>{{ .Name }}</span>
+                        </div>
+                    </td>
+                    <td><code>{{ .Email }}</code></td>
+                    <td>
+                        {{ if .GitHubID }}
+                        <span class="badge badge-github"><i class="fa-brands fa-github"></i> GitHub</span>
+                        {{ else }}
+                        <span class="badge badge-email"><i class="fa-solid fa-envelope"></i> Email</span>
+                        {{ end }}
+                    </td>
+                    <td>
+                        {{ if .IsAdmin }}
+                        <span class="badge badge-admin"><i class="fa-solid fa-shield-halved"></i> Admin</span>
+                        {{ else }}
+                        <span class="badge">User</span>
+                        {{ end }}
+                    </td>
+                    <td class="text-muted text-small">{{ formatDate .CreatedAt }}</td>
+                    <td>
+                        <form method="POST" action="/admin/users/{{ .ID }}/toggle-admin" style="display:inline">
+                            <input type="hidden" name="csrf_token" value="{{ $.CSRFToken }}">
+                            <button type="submit" class="button button-secondary button-small" title="{{ if .IsAdmin }}Remove admin{{ else }}Make admin{{ end }}">
+                                {{ if .IsAdmin }}
+                                <i class="fa-solid fa-user-minus"></i>
+                                {{ else }}
+                                <i class="fa-solid fa-user-shield"></i>
+                                {{ end }}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ end }}

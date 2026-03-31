@@ -1,0 +1,53 @@
+{{ define "title" }}Applications{{ end }}
+
+{{ define "content" }}
+<div class="page-header">
+    <div>
+        <h2>Applications</h2>
+        <p class="text-muted">OIDC client applications that can authenticate users through your SSO provider.</p>
+    </div>
+    <a href="/admin/applications/new" class="button button-accent">
+        <i class="fa-solid fa-plus"></i> New Application
+    </a>
+</div>
+
+{{ if .Applications }}
+<div class="app-grid">
+    {{ range .Applications }}
+    <a href="/admin/applications/{{ .ID }}" class="app-card card">
+        <div class="app-card-header">
+            {{ if .LogoURL }}
+            <img src="{{ .LogoURL }}" alt="{{ .Name }}" class="app-logo">
+            {{ else }}
+            <div class="app-logo-placeholder">
+                <i class="fa-solid fa-cube"></i>
+            </div>
+            {{ end }}
+            <div class="app-card-info">
+                <h3>{{ .Name }}</h3>
+                <p class="text-muted text-small">{{ .Description }}</p>
+            </div>
+        </div>
+        <div class="app-card-meta">
+            <span class="badge">{{ if .Trusted }}Trusted{{ else }}Requires Consent{{ end }}</span>
+            <span class="text-muted text-small">{{ formatTime .CreatedAt }}</span>
+        </div>
+        <div class="app-card-footer">
+            <code class="text-small">{{ .ClientID }}</code>
+        </div>
+    </a>
+    {{ end }}
+</div>
+{{ else }}
+<div class="empty-state card">
+    <div class="empty-state-icon">
+        <i class="fa-solid fa-cube"></i>
+    </div>
+    <h3>No applications yet</h3>
+    <p class="text-muted">Create your first OIDC application to get started.</p>
+    <a href="/admin/applications/new" class="button button-accent">
+        <i class="fa-solid fa-plus"></i> Create Application
+    </a>
+</div>
+{{ end }}
+{{ end }}

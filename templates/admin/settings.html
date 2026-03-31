@@ -1,0 +1,98 @@
+{{ define "title" }}Settings{{ end }}
+
+{{ define "content" }}
+<div class="page-header">
+    <div>
+        <h2>Settings</h2>
+        <p class="text-muted">Configure login methods and email delivery.</p>
+    </div>
+</div>
+
+{{ if .Success }}
+<div class="alert alert-success">
+    <i class="fa-solid fa-check-circle"></i> {{ .Success }}
+</div>
+{{ end }}
+
+<form method="POST" action="/admin/settings">
+    <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+    <div class="card">
+        <h3 class="card-title"><i class="fa-solid fa-envelope"></i> Email Magic Link</h3>
+        <p class="text-muted text-small">Allow users to sign in via a one-time link sent to their email.</p>
+
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="email_enabled" value="true" {{ if ne (index .Settings "email_enabled") "false" }}checked{{ end }}>
+                <span>Enable email magic link login</span>
+            </label>
+        </div>
+
+        <div class="settings-divider"></div>
+        <h4>SMTP Configuration</h4>
+
+        <div class="form-grid-2">
+            <div class="form-group">
+                <label for="smtp_host">SMTP Host</label>
+                <input type="text" id="smtp_host" name="smtp_host" value="{{ index .Settings "smtp_host" }}" placeholder="smtp.example.com">
+            </div>
+            <div class="form-group">
+                <label for="smtp_port">SMTP Port</label>
+                <input type="text" id="smtp_port" name="smtp_port" value="{{ index .Settings "smtp_port" }}" placeholder="587">
+            </div>
+        </div>
+
+        <div class="form-grid-2">
+            <div class="form-group">
+                <label for="smtp_username">SMTP Username</label>
+                <input type="text" id="smtp_username" name="smtp_username" value="{{ index .Settings "smtp_username" }}" placeholder="username">
+            </div>
+            <div class="form-group">
+                <label for="smtp_password">SMTP Password</label>
+                <input type="password" id="smtp_password" name="smtp_password" value="{{ index .Settings "smtp_password" }}" placeholder="••••••••">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="smtp_from">From Address</label>
+            <input type="email" id="smtp_from" name="smtp_from" value="{{ index .Settings "smtp_from" }}" placeholder="noreply@example.com">
+        </div>
+
+        <p class="text-muted text-small"><i class="fa-solid fa-info-circle"></i> If SMTP is not configured, magic links will be printed to the server console.</p>
+    </div>
+
+    <div class="card">
+        <h3 class="card-title"><i class="fa-brands fa-github"></i> GitHub OAuth</h3>
+        <p class="text-muted text-small">Allow users to sign in with their GitHub account.</p>
+
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="github_enabled" value="true" {{ if ne (index .Settings "github_enabled") "false" }}checked{{ end }}>
+                <span>Enable GitHub login</span>
+            </label>
+        </div>
+
+        <div class="form-grid-2">
+            <div class="form-group">
+                <label for="github_client_id">GitHub Client ID</label>
+                <input type="text" id="github_client_id" name="github_client_id" value="{{ index .Settings "github_client_id" }}" placeholder="Ov23li...">
+            </div>
+            <div class="form-group">
+                <label for="github_client_secret">GitHub Client Secret</label>
+                <input type="password" id="github_client_secret" name="github_client_secret" value="{{ index .Settings "github_client_secret" }}" placeholder="••••••••">
+            </div>
+        </div>
+
+        <p class="text-muted text-small">
+            <i class="fa-solid fa-info-circle"></i> Set your GitHub OAuth callback URL to:
+            <code>{{ .Config.IssuerURL }}/login/github/callback</code>
+        </p>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="button button-accent">
+            <i class="fa-solid fa-save"></i> Save Settings
+        </button>
+    </div>
+</form>
+{{ end }}

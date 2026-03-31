@@ -1,0 +1,39 @@
+{{ define "title" }}Check Your Email{{ end }}
+
+{{ define "content" }}
+<div class="auth-card card">
+    <div class="auth-logo auth-logo-success">
+        <i class="fa-solid fa-envelope-circle-check"></i>
+    </div>
+
+    <h2>Check your email</h2>
+
+    <p class="text-muted auth-subtitle">
+        We sent a sign-in link to<br>
+        <strong class="text-light">{{ .Email }}</strong>
+    </p>
+
+    <div class="auth-instructions">
+        <div class="instruction-step">
+            <span class="step-number">1</span>
+            <span>Open the email we just sent</span>
+        </div>
+        <div class="instruction-step">
+            <span class="step-number">2</span>
+            <span>Click the sign-in button</span>
+        </div>
+        <div class="instruction-step">
+            <span class="step-number">3</span>
+            <span>You'll be signed in automatically</span>
+        </div>
+    </div>
+
+    <p class="text-muted text-small" style="margin-top: 24px;">
+        <i class="fa-solid fa-clock"></i> The link expires in 15 minutes.
+    </p>
+
+    <a href="/login" class="button button-secondary button-full" style="margin-top: 16px;">
+        <i class="fa-solid fa-arrow-left"></i> Back to sign in
+    </a>
+</div>
+{{ end }}

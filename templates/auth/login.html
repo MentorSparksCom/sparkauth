@@ -1,0 +1,51 @@
+{{ define "title" }}Sign In{{ end }}
+
+{{ define "content" }}
+<div class="auth-card card">
+    <div class="auth-logo">
+        <i class="fa-solid fa-shield-halved"></i>
+    </div>
+
+    {{ if .AppName }}
+    <h2>Sign in to <span class="text-accent">{{ .AppName }}</span></h2>
+    {{ else }}
+    <h2>Sign in</h2>
+    {{ end }}
+
+    <p class="text-muted auth-subtitle">Choose your preferred sign-in method</p>
+
+    {{ if .Error }}
+    <div class="alert alert-error">
+        <i class="fa-solid fa-exclamation-circle"></i> {{ .Error }}
+    </div>
+    {{ end }}
+
+    {{ if .GitHubEnabled }}
+    <a href="/login/github?auth_request_id={{ .AuthRequestID }}&redirect={{ .Redirect }}" class="button button-github button-large button-full">
+        <i class="fa-brands fa-github"></i> Continue with GitHub
+    </a>
+    {{ end }}
+
+    {{ if and .GitHubEnabled .EmailEnabled }}
+    <div class="auth-divider">
+        <span>or</span>
+    </div>
+    {{ end }}
+
+    {{ if .EmailEnabled }}
+    <form method="POST" action="/login/email">
+        <input type="hidden" name="auth_request_id" value="{{ .AuthRequestID }}">
+        <input type="hidden" name="redirect" value="{{ .Redirect }}">
+
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required autofocus>
+        </div>
+
+        <button type="submit" class="button button-accent button-large button-full">
+            <i class="fa-solid fa-paper-plane"></i> Send Magic Link
+        </button>
+    </form>
+    {{ end }}
+</div>
+{{ end }}

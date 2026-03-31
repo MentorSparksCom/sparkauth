@@ -1,0 +1,109 @@
+{{ define "title" }}{{ if .IsNew }}New Application{{ else }}{{ .App.Name }}{{ end }}{{ end }}
+
+{{ define "content" }}
+<div class="page-header">
+    <div>
+        <a href="/admin/applications" class="back-link"><i class="fa-solid fa-arrow-left"></i> Applications</a>
+        <h2>{{ if .IsNew }}New Application{{ else }}{{ .App.Name }}{{ end }}</h2>
+    </div>
+    {{ if not .IsNew }}
+    <form method="POST" action="/admin/applications/{{ .App.ID }}/delete" onsubmit="return confirm('Are you sure you want to delete this application?')">
+        <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+        <button type="submit" class="button button-danger button-small">
+            <i class="fa-solid fa-trash"></i> Delete
+        </button>
+    </form>
+    {{ end }}
+</div>
+
+{{ if .Success }}
+<div class="alert alert-success">
+    <i class="fa-solid fa-check-circle"></i> {{ .Success }}
+</div>
+{{ end }}
+
+{{ if .Error }}
+<div class="alert alert-error">
+    <i class="fa-solid fa-exclamation-circle"></i> {{ .Error }}
+</div>
+{{ end }}
+
+{{ if .ClientSecret }}
+<div class="alert alert-warning">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <div>
+        <strong>Client Secret</strong> — Copy this now, it won't be shown again:
+        <div class="secret-display">
+            <code id="client-secret">{{ .ClientSecret }}</code>
+            <button type="button" class="button button-secondary button-small" onclick="navigator.clipboard.writeText(document.getElementById('client-secret').textContent)">
+                <i class="fa-solid fa-copy"></i> Copy
+            </button>
+        </div>
+    </div>
+</div>
+{{ end }}
+
+<form method="POST" action="{{ if .IsNew }}/admin/applications{{ else }}/admin/applications/{{ .App.ID }}{{ end }}">
+    <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+
+    <div class="card">
+        <h3 class="card-title">Details</h3>
+
+        <div class="form-group">
+            <label for="name">Application Name</label>
+            <input type="text" id="name" name="name" value="{{ if not .IsNew }}{{ .App.Name }}{{ end }}" placeholder="My App" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" value="{{ if not .IsNew }}{{ .App.Description }}{{ end }}" placeholder="A brief description of this application">
+        </div>
+
+        {{ if not .IsNew }}
+        <div class="form-group">
+            <label>Client ID</label>
+            <div class="input-with-copy">
+                <input type="text" value="{{ .App.ClientID }}" readonly>
+                <button type="button" class="button button-secondary button-small" onclick="navigator.clipboard.writeText('{{ .App.ClientID }}')">
+                    <i class="fa-solid fa-copy"></i>
+                </button>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">Redirect URIs</h3>
+        <p class="text-muted text-small">One URI per line. These are the allowed callback URLs for the OIDC flow.</p>
+        <div class="form-group">
+            <textarea name="redirect_uris" rows="4" placeholder="https://myapp.example.com/callback&#10;http://localhost:3000/callback">{{ .RedirectURIs }}</textarea>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">Options</h3>
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="trusted" {{ if not .IsNew }}{{ if .App.Trusted }}checked{{ end }}{{ end }}>
+                <span>Trusted Application</span>
+            </label>
+            <p class="text-muted text-small">Trusted applications skip the user consent screen.</p>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="button button-accent">
+            <i class="fa-solid fa-save"></i> {{ if .IsNew }}Create Application{{ else }}Save Changes{{ end }}
+        </button>
+    </div>
+</form>
+
+{{ if not .IsNew }}
+<form method="POST" action="/admin/applications/{{ .App.ID }}/regenerate-secret" onsubmit="return confirm('This will invalidate the current secret. Continue?')">
+    <input type="hidden" name="csrf_token" value="{{ .CSRFToken }}">
+    <button type="submit" class="button button-secondary">
+        <i class="fa-solid fa-rotate"></i> Regenerate Secret
+    </button>
+</form>
+{{ end }}
+{{ end }}

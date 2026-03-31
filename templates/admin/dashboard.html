@@ -1,0 +1,76 @@
+{{ define "title" }}Dashboard{{ end }}
+
+{{ define "content" }}
+<div class="dashboard-page">
+    <div class="dashboard-welcome">
+        <h2>Welcome back, <span class="text-accent">{{ .User.Name }}</span></h2>
+        <p class="text-muted">Manage your SSO provider from here.</p>
+    </div>
+
+    <div class="launcher-grid">
+        <a href="/admin/applications" class="launcher-card">
+            <div class="launcher-card-icon">
+                <i class="fa-solid fa-cube"></i>
+            </div>
+            <h3>Applications</h3>
+            <p>{{ .AppCount }} registered</p>
+        </a>
+
+        <a href="/admin/users" class="launcher-card">
+            <div class="launcher-card-icon">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <h3>Users</h3>
+            <p>{{ .UserCount }} accounts</p>
+        </a>
+
+        <a href="/admin/settings" class="launcher-card">
+            <div class="launcher-card-icon">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+            <h3>Settings</h3>
+            <p>Login methods &amp; SMTP</p>
+        </a>
+
+        <a href="/.well-known/openid-configuration" target="_blank" class="launcher-card">
+            <div class="launcher-card-icon">
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <h3>OIDC Discovery</h3>
+            <p>View configuration</p>
+        </a>
+    </div>
+
+    <section class="info-section">
+        <div class="card">
+            <h3><i class="fa-solid fa-circle-info"></i> Quick Start</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Issuer URL</strong>
+                    <code>{{ .IssuerURL }}</code>
+                </div>
+                <div class="info-item">
+                    <strong>Discovery</strong>
+                    <code>{{ .IssuerURL }}/.well-known/openid-configuration</code>
+                </div>
+                <div class="info-item">
+                    <strong>Authorization</strong>
+                    <code>{{ .IssuerURL }}/authorize</code>
+                </div>
+                <div class="info-item">
+                    <strong>Token</strong>
+                    <code>{{ .IssuerURL }}/token</code>
+                </div>
+                <div class="info-item">
+                    <strong>UserInfo</strong>
+                    <code>{{ .IssuerURL }}/userinfo</code>
+                </div>
+                <div class="info-item">
+                    <strong>JWKS</strong>
+                    <code>{{ .IssuerURL }}/jwks</code>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{{ end }}
