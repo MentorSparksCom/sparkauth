@@ -1,6 +1,11 @@
-# SSO Login Provider
+# SparkAuth SSO Login Provider
 
-A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and PostgreSQL.
+A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and PostgreSQL. 
+
+## Goals
+- easy to install/setup and use
+- just the things I need for mentorsparks.com SSO 
+
 
 ## Features
 
@@ -84,3 +89,7 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 
 ## Used at
 - https://mentorsparks.com
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
