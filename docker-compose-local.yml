@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   loginserver:
-    image: stefanholmberg/sparkauth:latest
+    build: .
     ports:
       - "9000:9000"
     env_file:
