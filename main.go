@@ -12,6 +12,7 @@ import (
 	"loginserver/internal/email"
 	"loginserver/internal/handlers"
 	"loginserver/internal/middleware"
+	"loginserver/internal/models"
 	"loginserver/internal/render"
 )
 
@@ -19,6 +20,29 @@ func main() {
 	_ = godotenv.Load() // load .env if present
 	cfg := config.Load()
 	db := database.Connect(cfg)
+
+	// Load settings from database to override config
+	var settings []models.Setting
+	db.Find(&settings)
+	for _, s := range settings {
+		switch s.Key {
+		case "github_client_id":
+			cfg.GitHubClientID = s.Value
+		case "github_client_secret":
+			cfg.GitHubClientSecret = s.Value
+		case "smtp_host":
+			cfg.SMTPHost = s.Value
+		case "smtp_port":
+			cfg.SMTPPort = s.Value
+		case "smtp_username":
+			cfg.SMTPUsername = s.Value
+		case "smtp_password":
+			cfg.SMTPPassword = s.Value
+		case "smtp_from":
+			cfg.SMTPFrom = s.Value
+		}
+	}
+
 	keys := crypto.NewKeyManager(db)
 	emailSender := email.NewSender(cfg)
 

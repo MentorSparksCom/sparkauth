@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -74,7 +75,7 @@ func (h *LoginHandler) LoginPage(c *gin.Context) {
 		}
 	}
 
-	githubEnabled := h.cfg.GitHubClientID != ""
+	githubEnabled := false
 	emailEnabled := true
 
 	var settings []models.Setting
@@ -82,8 +83,8 @@ func (h *LoginHandler) LoginPage(c *gin.Context) {
 	for _, s := range settings {
 		switch s.Key {
 		case "github_enabled":
-			if s.Value == "false" {
-				githubEnabled = false
+			if s.Value == "true" {
+				githubEnabled = true
 			}
 		case "email_enabled":
 			if s.Value == "false" {
@@ -210,6 +211,7 @@ func (h *LoginHandler) GitHubCallback(c *gin.Context) {
 
 	token, err := h.githubOAuthConfig().Exchange(context.Background(), code)
 	if err != nil {
+		log.Printf("GitHub Exchange error: %v", err)
 		h.renderer.Render(c, http.StatusBadRequest, "auth_error", gin.H{
 			"Error": "Failed to exchange code with GitHub",
 		})

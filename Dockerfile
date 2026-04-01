@@ -16,7 +16,10 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
 # Final stage
-FROM scratch
+FROM alpine:latest
+
+# Install CA certificates
+RUN apk --no-cache add ca-certificates
 
 # Copy the binary
 COPY --from=builder /app/main /main
