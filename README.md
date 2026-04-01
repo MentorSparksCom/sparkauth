@@ -10,6 +10,21 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 - **Admin Dashboard**: Manage applications, users, and settings
 - **Glass Morphism UI**: Dark theme with modern design
 
+## Screenshots
+
+![Login Page](screenshots/sparkauth3.png)
+
+*Login page with email magic link option.*
+
+![Admin](screenshots/sparkauth.png)
+
+*Admin page*
+
+
+![Admin Dashboard](screenshots/sparkauth2.png)
+
+*Admin dashboard for managing users and applications.*
+
 ## Quick Start
 
 ### Prerequisites
@@ -20,7 +35,7 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 
 1. Create the database:
    ```sql
-   CREATE DATABASE sso;
+   CREATE DATABASE sparkauth;
    ```
 
 2. Copy and configure environment:
@@ -64,3 +79,8 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 ## Planned features
 - Email templates (per application)
 - multitenacy
+
+
+
+## Used at
+- https://mentorsparks.com

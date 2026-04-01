@@ -19,7 +19,7 @@ type Config struct {
 
 func Load() *Config {
 	return &Config{
-		DatabaseURL:        getEnv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/sso?sslmode=disable"),
+		DatabaseURL:        getEnv("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/sparkauth?sslmode=disable"),
 		IssuerURL:          getEnv("ISSUER_URL", "http://localhost:8080"),
 		SessionSecret:      getEnv("SESSION_SECRET", "default-secret-change-me"),
 		AdminEmail:         getEnv("ADMIN_EMAIL", ""),

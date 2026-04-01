@@ -83,7 +83,7 @@ func main() {
 		admin.POST("/settings", adminHandler.SettingsSave)
 	}
 
-	log.Printf("SSO Provider starting on :%s", cfg.Port)
+	log.Printf("SparkAuth starting on :%s", cfg.Port)
 	log.Printf("Issuer URL: %s", cfg.IssuerURL)
 	log.Printf("Discovery:  %s/.well-known/openid-configuration", cfg.IssuerURL)
 
