@@ -35,7 +35,7 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
    go run .
    ```
 
-4. Open http://localhost:8080/admin — log in with the admin email (via magic link printed to console)
+4. Open http://localhost:9000/admin — log in with the admin email (via magic link printed to console)
 
 ## OIDC Endpoints
 
@@ -53,8 +53,14 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 2. Set a name and redirect URI(s)
 3. Copy the Client ID and Client Secret
 4. Configure your app with:
-   - **Issuer**: `http://localhost:8080`
+   - **Issuer**: `http://localhost:9000`
    - **Client ID**: from step 3
    - **Client Secret**: from step 3
    - **Redirect URI**: must match one registered
    - **Scopes**: `openid profile email`
+
+
+
+## Planned features
+- Email templates (per application)
+- multitenacy
