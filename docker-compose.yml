@@ -16,6 +16,8 @@ services:
     build: .
     ports:
       - "9000:9000"
+    env_file:
+      - .env
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/sparkauth?sslmode=disable
       PORT: 9000

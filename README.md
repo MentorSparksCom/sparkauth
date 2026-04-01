@@ -63,14 +63,20 @@ If you prefer using Docker:
 
 1. Ensure Docker and Docker Compose are installed.
 
-2. Run:
+2. Copy and configure environment (optional, for SMTP/GitHub OAuth/etc.):
+   ```bash
+   cp .env.example .env
+   # Edit .env with your SMTP settings, GitHub OAuth credentials, etc.
+   ```
+
+3. Run:
    ```bash
    docker compose up
    ```
 
-3. Open http://localhost:8080/admin — log in with the admin email (via magic link printed to console)
+4. Open http://localhost:9000/admin — log in with the admin email (via magic link printed to console)
 
-The database will be automatically created and configured.
+The database will be automatically created and configured. If you created a .env file, additional settings like email and OAuth will be loaded.
 
 ## OIDC Endpoints
 

@@ -26,7 +26,7 @@ COPY --from=builder /app/static /static
 COPY --from=builder /app/templates /templates
 
 # Expose port (adjust if needed, based on your config)
-EXPOSE 8080
+EXPOSE 9000
 
 # Run the binary
 CMD ["/main"]
