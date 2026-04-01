@@ -91,6 +91,7 @@ func (h *OIDCHandler) Authorize(c *gin.Context) {
 	nonce := c.Query("nonce")
 	codeChallenge := c.Query("code_challenge")
 	codeChallengeMethod := c.Query("code_challenge_method")
+	prompt := c.Query("prompt")
 
 	if responseType != "code" {
 		h.renderError(c, "Unsupported response_type. Only 'code' is supported.")
@@ -125,9 +126,16 @@ func (h *OIDCHandler) Authorize(c *gin.Context) {
 		Nonce:               nonce,
 		CodeChallenge:       codeChallenge,
 		CodeChallengeMethod: codeChallengeMethod,
+		Prompt:              prompt,
 		ExpiresAt:           time.Now().Add(10 * time.Minute),
 	}
 	h.db.Create(&authReq)
+
+	// Check if prompt=login forces re-authentication
+	if prompt == "login" {
+		c.Redirect(http.StatusFound, "/login?auth_request_id="+authReq.ID)
+		return
+	}
 
 	session, user := middleware.GetSession(h.db, c)
 	if session != nil && user != nil {

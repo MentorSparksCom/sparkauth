@@ -82,6 +82,7 @@ type AuthRequest struct {
 	Nonce               string
 	CodeChallenge       string
 	CodeChallengeMethod string
+	Prompt              string
 	SessionID           string
 	Approved            bool `gorm:"default:false"`
 	CreatedAt           time.Time

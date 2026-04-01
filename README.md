@@ -9,7 +9,7 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 
 ## Features
 
-- **OIDC Provider**: Full OpenID Connect authorization code flow with PKCE support
+- **OIDC Provider**: Full OpenID Connect authorization code flow with PKCE support, including `prompt=login` for forced re-authentication
 - **Email Magic Link**: Passwordless sign-in via email
 - **GitHub OAuth**: Sign in with GitHub
 - **Admin Dashboard**: Manage applications, users, and settings

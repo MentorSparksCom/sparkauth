@@ -49,19 +49,32 @@ func (h *LoginHandler) LoginPage(c *gin.Context) {
 	authRequestID := c.Query("auth_request_id")
 	redirect := c.Query("redirect")
 
-	// Check if already logged in
-	session, _ := middleware.GetSession(h.db, c)
-	if session != nil {
-		if authRequestID != "" {
-			c.Redirect(http.StatusFound, "/authorize?auth_request_id="+authRequestID)
+	// Check if this is a forced login due to prompt=login
+	forceLogin := false
+	if authRequestID != "" {
+		var authReq models.AuthRequest
+		if err := h.db.First(&authReq, "id = ? AND expires_at > ?", authRequestID, time.Now()).Error; err == nil {
+			if authReq.Prompt == "login" {
+				forceLogin = true
+			}
+		}
+	}
+
+	// Check if already logged in (skip if forced login)
+	if !forceLogin {
+		session, _ := middleware.GetSession(h.db, c)
+		if session != nil {
+			if authRequestID != "" {
+				c.Redirect(http.StatusFound, "/authorize?auth_request_id="+authRequestID)
+				return
+			}
+			if redirect != "" && strings.HasPrefix(redirect, "/") {
+				c.Redirect(http.StatusFound, redirect)
+				return
+			}
+			c.Redirect(http.StatusFound, "/admin")
 			return
 		}
-		if redirect != "" && strings.HasPrefix(redirect, "/") {
-			c.Redirect(http.StatusFound, redirect)
-			return
-		}
-		c.Redirect(http.StatusFound, "/admin")
-		return
 	}
 
 	appName := ""
