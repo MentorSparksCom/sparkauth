@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: sparkauth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  loginserver:
+    build: .
+    ports:
+      - "9000:9000"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/sparkauth?sslmode=disable
+      PORT: 9000
+      ISSUER_URL: http://localhost:9000
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

@@ -57,6 +57,21 @@ A self-hosted OIDC (OpenID Connect) identity provider built with Go, Gin, and Po
 
 4. Open http://localhost:9000/admin — log in with the admin email (via magic link printed to console)
 
+### Running with Docker Compose
+
+If you prefer using Docker:
+
+1. Ensure Docker and Docker Compose are installed.
+
+2. Run:
+   ```bash
+   docker compose up
+   ```
+
+3. Open http://localhost:8080/admin — log in with the admin email (via magic link printed to console)
+
+The database will be automatically created and configured.
+
 ## OIDC Endpoints
 
 | Endpoint | URL |
